@@ -1,0 +1,14 @@
+{
+    "name": "maxim/react-php-test",
+    "type": "project",
+    "require": {
+        "react/event-loop": "^0.5.3",
+        "react/http": "^0.8.3"
+    },
+    "authors": [
+        {
+            "name": "m.karpenko",
+            "email": "karpenko.mi89@gmail.com"
+        }
+    ]
+}
