@@ -4,18 +4,14 @@ require_once 'Application.php';
 
 $loop = React\EventLoop\Factory::create();
 
-$server = new React\Http\Server(function (Psr\Http\Message\ServerRequestInterface $request) {
+$app = new Application('reactPHP');
 
-    $app = new Application('reactPHP');
-    $app->execute();
-    return new React\Http\Response(
-        200,
-        array('Content-Type' => 'text/plain'),
-        "Hello World!\n"
-    );
+$server = new React\Http\Server(function (Psr\Http\Message\ServerRequestInterface $request) use ($app) {
+    return $app->execute();
+
 });
 $port = $argv[1];
-$socket = new React\Socket\Server($port, $loop);
+$socket = new React\Socket\Server('0.0.0.0:'.$port, $loop);
 $server->listen($socket);
 
 echo "Server running at http://127.0.0.1:$port\n";

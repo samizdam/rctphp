@@ -1,0 +1,29 @@
+version: "3.1"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/nginx/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "${NGINX_PORT_FPM:-8080}:80"
+      - "${NGINX_PORT_RCT:-8081}:81"
+
+  php-fpm:
+    image: php:7.1-fpm
+    volumes:
+      - .:/opt/rctphp
+
+  rctphp:
+    image: php:7.1-cli
+    volumes:
+      - .:/opt/rctphp
+    command: php /opt/rctphp/src/react.php 9000
+
+  ab:
+    image: samizdam/ab
+    volumes:
+      - ./logs:/logs
+    working_dir: /logs
+    build:
+      context: ./docker/ab/
